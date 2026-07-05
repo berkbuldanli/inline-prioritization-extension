@@ -1,0 +1,127 @@
+/*
+ * Priority Scorer — widget styles
+ * -------------------------------
+ * These styles are injected onto Jira/Linear pages alongside content.js.
+ *
+ * Every class is prefixed with "ps-" (Priority Scorer) so our styles don't
+ * accidentally clash with Jira's or Linear's own styles, and theirs don't
+ * clash with ours. We also set explicit font/size/color values instead of
+ * inheriting from the page, so the widget looks the same everywhere.
+ */
+
+/* The outer container is fixed to the bottom-right corner of the screen.
+   A very high z-index keeps it above the page content. */
+#priority-scorer-root.ps-root {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2147483000; /* just below the max so tooltips can still sit above */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #1f2430;
+  /* Stack the panel above the button. */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* The round floating button. */
+.ps-root .ps-toggle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: #5b5ef4;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+.ps-root .ps-toggle:hover {
+  background: #494cf0;
+  transform: translateY(-1px);
+}
+.ps-root .ps-toggle:active {
+  transform: translateY(0);
+}
+
+/* The expanding panel. */
+.ps-root .ps-panel {
+  width: 300px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+  border: 1px solid #e6e8ef;
+}
+
+/* Utility class to hide the panel. */
+.ps-root .ps-hidden {
+  display: none;
+}
+
+/* Panel header bar. */
+.ps-root .ps-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: #5b5ef4;
+  color: #ffffff;
+}
+.ps-root .ps-title {
+  font-weight: 600;
+}
+.ps-root .ps-close {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  opacity: 0.85;
+}
+.ps-root .ps-close:hover {
+  opacity: 1;
+}
+
+/* Panel body. */
+.ps-root .ps-body {
+  padding: 14px;
+}
+
+/* The "detected ticket" info box. */
+.ps-root .ps-detected {
+  background: #f4f5fb;
+  border: 1px solid #e6e8ef;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+.ps-root .ps-detected-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #7b8194;
+  margin-bottom: 4px;
+}
+.ps-root .ps-detected-id {
+  font-weight: 700;
+  font-size: 16px;
+}
+.ps-root .ps-detected-platform {
+  font-size: 12px;
+  color: #7b8194;
+}
+
+.ps-root .ps-placeholder {
+  margin: 0;
+  color: #4a5164;
+}

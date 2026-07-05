@@ -1,0 +1,32 @@
+<!--
+  Priority Scorer — popup
+  -----------------------
+  This is the small window that opens when you click the extension's icon in
+  the browser toolbar. In a later step it will list all your saved scores,
+  ranked highest first. For now it just shows a friendly placeholder so you can
+  confirm the popup opens.
+
+  Note: browser extension popups do not allow "inline" scripts for security
+  reasons, so our JavaScript lives in popup.js and is linked at the bottom.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Priority Scorer</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="pp-header">
+      <span class="pp-logo">PS</span>
+      <h1 class="pp-title">Priority Scorer</h1>
+    </header>
+
+    <main id="pp-content" class="pp-content">
+      <!-- popup.js fills this in -->
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

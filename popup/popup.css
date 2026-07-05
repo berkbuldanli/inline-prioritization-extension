@@ -1,0 +1,66 @@
+/*
+ * Priority Scorer — popup styles
+ * The popup is a tiny web page, so we give it a fixed, comfortable width.
+ */
+
+:root {
+  --ps-purple: #5b5ef4;
+  --ps-ink: #1f2430;
+  --ps-muted: #7b8194;
+  --ps-line: #e6e8ef;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 340px;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  font-size: 14px;
+  color: var(--ps-ink);
+  background: #ffffff;
+}
+
+.pp-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--ps-purple);
+  color: #ffffff;
+}
+.pp-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.18);
+  font-weight: 700;
+  font-size: 12px;
+}
+.pp-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.pp-content {
+  padding: 16px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+/* Empty state shown when there are no saved scores yet. */
+.pp-empty {
+  text-align: center;
+  color: var(--ps-muted);
+  padding: 24px 8px;
+}
+.pp-empty strong {
+  color: var(--ps-ink);
+}

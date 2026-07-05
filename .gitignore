@@ -1,0 +1,16 @@
+# Operating system junk
+.DS_Store
+Thumbs.db
+
+# Editor settings
+.vscode/
+.idea/
+
+# Node / tooling (not used yet, but handy for later)
+node_modules/
+*.log
+
+# Packaged extension builds
+*.zip
+*.xpi
+web-ext-artifacts/

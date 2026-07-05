@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Priority Scorer",
+  "version": "0.1.0",
+  "description": "Score and prioritize Jira & Linear tickets with the RICE and ICE frameworks. Everything is stored locally in your browser — no accounts, no servers.",
+
+  "permissions": ["storage"],
+
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Priority Scorer"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.atlassian.net/*",
+        "*://linear.app/*"
+      ],
+      "js": ["content/content.js"],
+      "css": ["content/widget.css"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "priority-scorer@example.com",
+      "strict_min_version": "109.0"
+    }
+  }
+}
