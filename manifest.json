@@ -17,7 +17,7 @@
         "*://*.atlassian.net/*",
         "*://linear.app/*"
       ],
-      "js": ["content/content.js"],
+      "js": ["lib/storage.js", "content/content.js"],
       "css": ["content/widget.css"],
       "run_at": "document_idle"
     }

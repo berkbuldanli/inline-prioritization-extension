@@ -64,3 +64,78 @@ body {
 .pp-empty strong {
   color: var(--ps-ink);
 }
+
+/* --- Ranked list -------------------------------------------------------- */
+.pp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pp-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--ps-line);
+}
+.pp-item:last-child {
+  border-bottom: none;
+}
+
+/* The score badge. */
+.pp-score {
+  flex: 0 0 auto;
+  min-width: 46px;
+  padding: 6px 8px;
+  text-align: center;
+  background: #eef0ff;
+  color: var(--ps-purple);
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: 8px;
+}
+
+/* Ticket title + meta line. */
+.pp-info {
+  flex: 1 1 auto;
+  min-width: 0; /* lets the text truncate instead of overflowing */
+}
+.pp-link {
+  display: block;
+  color: var(--ps-ink);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pp-link:hover {
+  color: var(--ps-purple);
+  text-decoration: underline;
+}
+.pp-meta {
+  font-size: 11px;
+  color: var(--ps-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Delete button. */
+.pp-delete {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ps-muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pp-delete:hover {
+  background: #ffe9e9;
+  color: #d64545;
+}

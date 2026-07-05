@@ -7,10 +7,18 @@ stored locally in your browser — no accounts, no servers, no external APIs.
 Works on **Chrome** and **Firefox** (built with the WebExtensions API,
 Manifest V3).
 
-> **Status:** Early version. Right now the extension detects when you're on a
-> Jira/Linear ticket page and shows a floating **PS** button that opens a small
-> panel. The RICE/ICE scoring math and the saved-scores list are being added
-> next.
+## What it does
+
+- On a **Jira** or **Linear** ticket page, a floating **PS** button appears
+  bottom-right. Click it to open the scoring panel.
+- Score the ticket two ways, switchable with tabs:
+  - **RICE** — Reach × Impact × Confidence ÷ Effort.
+  - **ICE** — the average of Impact, Confidence, and Ease (each 1–10).
+- The score updates live as you type. Click **Save score** to store it against
+  that ticket (kept in your browser, keyed by ticket + workspace, with the date
+  and method).
+- Click the toolbar icon to open the **popup**: all your saved scores as a
+  ranked list (highest first). Click a ticket to open it; use **×** to delete.
 
 ---
 
@@ -19,9 +27,10 @@ Manifest V3).
 | File / folder         | What it does                                                        |
 | --------------------- | ------------------------------------------------------------------- |
 | `manifest.json`       | The extension's "ID card" — its name, permissions, and which files to run. |
-| `content/content.js`  | Runs on Jira/Linear pages; detects tickets and injects the widget.  |
+| `content/content.js`  | Runs on Jira/Linear pages; detects tickets, injects the widget, does the RICE/ICE math. |
 | `content/widget.css`  | Styles for the floating button and panel.                           |
-| `popup/`              | The little window that opens when you click the toolbar icon.       |
+| `lib/storage.js`      | Shared helper for reading/writing saved scores (used by both the widget and popup). |
+| `popup/`              | The toolbar window that shows your saved scores as a ranked list.   |
 | `README.md`           | This file.                                                          |
 
 ---
@@ -57,9 +66,11 @@ this folder. This is called "loading an unpacked extension."
    - Jira: a URL like `https://your-team.atlassian.net/browse/PROJ-456`
 2. Look at the **bottom-right corner** — you should see a round purple **PS**
    button.
-3. Click it. A panel opens showing the ticket ID it detected.
-4. Click around to a different ticket without reloading — the panel should
-   update to the new ticket.
+3. Click it. A panel opens. Pick **RICE** or **ICE**, fill in the numbers, and
+   watch the **Score** update live.
+4. Click **Save score**. Then click the extension's **toolbar icon** to see it
+   in your ranked list. Click the ticket title to open it, or **×** to delete.
+5. Click around to a different ticket without reloading — the panel follows you.
 
 If you change any of the code, go back to the extensions page and click the
 **reload/refresh** icon on the Priority Scorer card, then refresh the ticket
