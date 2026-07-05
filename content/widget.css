@@ -126,86 +126,8 @@
   text-overflow: ellipsis;
 }
 
-/* --- Method tabs (RICE / ICE) ------------------------------------------- */
-.ps-root .ps-tabs {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-.ps-root .ps-tab {
-  flex: 1;
-  padding: 7px 0;
-  border: 1px solid #d9dce6;
-  background: #f7f8fc;
-  color: #4a5164;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-}
-.ps-root .ps-tab-active {
-  background: #5b5ef4;
-  border-color: #5b5ef4;
-  color: #ffffff;
-}
-
-/* --- Forms -------------------------------------------------------------- */
-.ps-root .ps-field {
-  display: block;
-  margin-bottom: 10px;
-}
-.ps-root .ps-field-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: #4a5164;
-  margin-bottom: 4px;
-}
-.ps-root .ps-field-label small {
-  font-weight: 400;
-  color: #9aa0b2;
-}
-.ps-root .ps-input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 8px 10px;
-  border: 1px solid #d9dce6;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #1f2430;
-  background: #ffffff;
-  /* Reset so host-page form styles can't distort our inputs. */
-  font-family: inherit;
-  line-height: 1.2;
-}
-.ps-root .ps-input:focus {
-  outline: none;
-  border-color: #5b5ef4;
-  box-shadow: 0 0 0 2px rgba(91, 94, 244, 0.2);
-}
-
-/* --- Result box --------------------------------------------------------- */
-.ps-root .ps-result {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  background: #f4f5fb;
-  border: 1px solid #e6e8ef;
-  border-radius: 8px;
-  padding: 10px 12px;
-  margin: 4px 0 12px;
-}
-.ps-root .ps-result-label {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: #7b8194;
-}
-.ps-root .ps-result-value {
-  font-size: 22px;
-  font-weight: 700;
-  color: #5b5ef4;
-}
+/* The RICE/ICE form, tabs, result readout and tier badges are styled in the
+   shared lib/scoreForm.css (used by both this widget and the popup). */
 
 /* --- Save button -------------------------------------------------------- */
 .ps-root .ps-save {

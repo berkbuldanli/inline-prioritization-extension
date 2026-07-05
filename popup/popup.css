@@ -48,6 +48,63 @@ body {
   font-size: 16px;
   font-weight: 600;
 }
+/* Export button, pushed to the right of the header. */
+.pp-export {
+  margin-left: auto;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pp-export:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* --- Controls bar (search / sort / filter) ------------------------------ */
+.pp-controls {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--ps-line);
+  background: #fbfbfe;
+}
+.pp-search {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #d9dce6;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  margin-bottom: 8px;
+}
+.pp-search:focus {
+  outline: none;
+  border-color: var(--ps-purple);
+  box-shadow: 0 0 0 2px rgba(91, 94, 244, 0.2);
+}
+.pp-control-row {
+  display: flex;
+  gap: 8px;
+}
+.pp-control {
+  flex: 1;
+  font-size: 11px;
+  color: var(--ps-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.pp-control select {
+  padding: 6px 8px;
+  border: 1px solid #d9dce6;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--ps-ink);
+  background: #ffffff;
+}
 
 .pp-content {
   padding: 16px;
@@ -122,20 +179,91 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Delete button. */
+/* Tier badge + rank line under the title. */
+.pp-tier-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.pp-rank {
+  font-size: 11px;
+  color: var(--ps-muted);
+}
+
+/* Action buttons (edit + delete) on the right. */
+.pp-actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.pp-edit,
 .pp-delete {
   flex: 0 0 auto;
-  width: 26px;
   height: 26px;
+  min-width: 26px;
+  padding: 0 6px;
   border: none;
   border-radius: 6px;
   background: transparent;
   color: var(--ps-muted);
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1;
   cursor: pointer;
+}
+.pp-edit:hover {
+  background: #eef0ff;
+  color: var(--ps-purple);
 }
 .pp-delete:hover {
   background: #ffe9e9;
   color: #d64545;
+}
+/* When delete is awaiting confirmation. */
+.pp-delete-confirm {
+  background: #ffe9e9;
+  color: #d64545;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* --- Inline edit form --------------------------------------------------- */
+.pp-item-editing {
+  display: block; /* let the editor use the full row width */
+}
+.pp-editor {
+  width: 100%;
+}
+.pp-editor-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.pp-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+.pp-btn {
+  padding: 8px 14px;
+  border: 1px solid #d9dce6;
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--ps-ink);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+.pp-btn:hover {
+  background: #f4f5fb;
+}
+.pp-btn-primary {
+  background: var(--ps-purple);
+  border-color: var(--ps-purple);
+  color: #ffffff;
+}
+.pp-btn-primary:hover {
+  background: #494cf0;
 }

@@ -14,11 +14,27 @@ Manifest V3).
 - Score the ticket two ways, switchable with tabs:
   - **RICE** — Reach × Impact × Confidence ÷ Effort.
   - **ICE** — the average of Impact, Confidence, and Ease (each 1–10).
-- The score updates live as you type. Click **Save score** to store it against
-  that ticket (kept in your browser, keyed by ticket + workspace, with the date
-  and method).
+- The score updates live as you type, with a **priority tier** badge
+  (High / Medium / Low) and short plain-English hints under every field. Click
+  **Save score** to store it against that ticket (kept in your browser, keyed by
+  ticket + workspace, with the date and method).
 - Click the toolbar icon to open the **popup**: all your saved scores as a
-  ranked list (highest first). Click a ticket to open it; use **×** to delete.
+  ranked list (highest first), each with its tier and rank. You can:
+  - **Search** by title or ticket ID,
+  - **Sort** by score or date,
+  - **Filter** by method (RICE / ICE),
+  - **Edit** a saved score in place, or **delete** it (with a confirm step),
+  - **Export CSV** to open your scores in a spreadsheet,
+  - click a ticket to open it in a new tab.
+
+### About priority tiers
+
+RICE and ICE scores live on different scales, so tiers are worked out per
+method:
+
+- **ICE** (a 1–10 average): High ≥ 7, Medium ≥ 4, Low below 4.
+- **RICE** (no natural ceiling): ranked relative to your own highest RICE score —
+  the top third is High, the middle Medium, the bottom Low.
 
 ---
 
@@ -27,10 +43,13 @@ Manifest V3).
 | File / folder         | What it does                                                        |
 | --------------------- | ------------------------------------------------------------------- |
 | `manifest.json`       | The extension's "ID card" — its name, permissions, and which files to run. |
-| `content/content.js`  | Runs on Jira/Linear pages; detects tickets, injects the widget, does the RICE/ICE math. |
-| `content/widget.css`  | Styles for the floating button and panel.                           |
-| `lib/storage.js`      | Shared helper for reading/writing saved scores (used by both the widget and popup). |
-| `popup/`              | The toolbar window that shows your saved scores as a ranked list.   |
+| `content/content.js`  | Runs on Jira/Linear pages; detects tickets and injects the widget.  |
+| `content/widget.css`  | Styles specific to the floating button and panel.                   |
+| `lib/scoring.js`      | The single "source of truth": each method's fields, math, tiers, ranks. |
+| `lib/scoreForm.js`    | The reusable RICE/ICE form (used by both the widget and the popup's edit mode). |
+| `lib/scoreForm.css`   | Shared styles for that form and the tier badges.                    |
+| `lib/storage.js`      | Shared helper for reading/writing saved scores.                     |
+| `popup/`              | The toolbar window: ranked list, search/sort/filter, edit, export.  |
 | `README.md`           | This file.                                                          |
 
 ---

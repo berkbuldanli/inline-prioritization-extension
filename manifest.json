@@ -17,8 +17,13 @@
         "*://*.atlassian.net/*",
         "*://linear.app/*"
       ],
-      "js": ["lib/storage.js", "content/content.js"],
-      "css": ["content/widget.css"],
+      "js": [
+        "lib/storage.js",
+        "lib/scoring.js",
+        "lib/scoreForm.js",
+        "content/content.js"
+      ],
+      "css": ["lib/scoreForm.css", "content/widget.css"],
       "run_at": "document_idle"
     }
   ],
