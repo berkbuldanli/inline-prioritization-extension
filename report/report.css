@@ -1,0 +1,155 @@
+/*
+ * Priority Scorer — printable report styles
+ * Designed to look clean on screen AND on paper / PDF.
+ */
+
+:root {
+  --rp-ink: #1f2430;
+  --rp-muted: #6b7280;
+  --rp-line: #e2e5ee;
+  --rp-purple: #5b5ef4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  color: var(--rp-ink);
+  background: #f4f5f7;
+}
+
+/* Toolbar with the print button (hidden when actually printing). */
+.rp-toolbar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--rp-line);
+}
+.rp-toolbar button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--rp-purple);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+.rp-hint {
+  font-size: 13px;
+  color: var(--rp-muted);
+}
+
+/* The printable page area. */
+.rp-page {
+  max-width: 820px;
+  margin: 24px auto;
+  padding: 32px 40px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.rp-header h1 {
+  margin: 0 0 4px;
+  font-size: 24px;
+}
+.rp-sub {
+  margin: 0 0 8px;
+  color: var(--rp-muted);
+  font-size: 13px;
+}
+.rp-empty {
+  color: var(--rp-muted);
+}
+
+.rp-section {
+  margin-top: 28px;
+}
+.rp-section h2 {
+  font-size: 16px;
+  margin: 0 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--rp-line);
+}
+
+.rp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.rp-table th {
+  text-align: left;
+  color: var(--rp-muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--rp-line);
+}
+.rp-table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--rp-line);
+  vertical-align: top;
+}
+.rp-rank {
+  color: var(--rp-muted);
+  white-space: nowrap;
+}
+.rp-score {
+  font-weight: 700;
+  color: var(--rp-purple);
+}
+
+/* Tier pills. Borders (not just background) so they survive B&W printing. */
+.rp-tier {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.rp-tier-high {
+  color: #1e7d46;
+}
+.rp-tier-medium {
+  color: #b26a00;
+}
+.rp-tier-low {
+  color: #6b7280;
+}
+
+/* Print tweaks: hide the toolbar, flatten the page, avoid splitting rows. */
+@media print {
+  body {
+    background: #ffffff;
+  }
+  .rp-toolbar {
+    display: none;
+  }
+  .rp-page {
+    margin: 0;
+    max-width: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+  }
+  .rp-table tr {
+    page-break-inside: avoid;
+  }
+  /* Ask the browser to keep the tier colors when printing. */
+  .rp-tier,
+  .rp-score {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

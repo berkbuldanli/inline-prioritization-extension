@@ -21,9 +21,22 @@
     <header class="pp-header">
       <span class="pp-logo">PS</span>
       <h1 class="pp-title">Priority Scorer</h1>
-      <button id="pp-export" class="pp-export" type="button" title="Export all scores to a CSV file">
-        Export CSV
-      </button>
+      <div class="pp-menu-wrap">
+        <button id="pp-export-btn" class="pp-export" type="button" aria-haspopup="true">
+          Export ▾
+        </button>
+        <div id="pp-export-menu" class="pp-menu-list pp-menu-hidden">
+          <button class="pp-menu-item" type="button" data-action="copy-md">Copy as Markdown</button>
+          <button class="pp-menu-item" type="button" data-action="md">Markdown (.md)</button>
+          <button class="pp-menu-item" type="button" data-action="csv">CSV (.csv)</button>
+          <button class="pp-menu-item" type="button" data-action="pdf">Print / Save as PDF</button>
+          <div class="pp-menu-sep"></div>
+          <button class="pp-menu-item" type="button" data-action="json">Backup all (JSON)</button>
+          <button class="pp-menu-item" type="button" data-action="import">Restore from backup…</button>
+        </div>
+        <!-- Hidden file picker used by "Restore from backup". -->
+        <input id="pp-import-file" type="file" accept="application/json,.json" hidden />
+      </div>
     </header>
 
     <!-- Controls: search, sort, and method filter. Hidden when there's nothing
@@ -63,6 +76,7 @@
     <script src="../lib/storage.js"></script>
     <script src="../lib/scoring.js"></script>
     <script src="../lib/scoreForm.js"></script>
+    <script src="../lib/exporters.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>

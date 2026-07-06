@@ -1,0 +1,31 @@
+<!--
+  Priority Scorer — printable report
+  ----------------------------------
+  Opened in its own browser tab from the popup's "Print / Save as PDF" option.
+  It reads your saved scores and lays them out as a clean, print-friendly page.
+  Because it's a normal full tab (not the tiny popup), the browser's print
+  dialog — and "Save as PDF" — work exactly as you'd expect.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Priority Scores — Report</title>
+    <link rel="stylesheet" href="report.css" />
+  </head>
+  <body>
+    <div class="rp-toolbar" id="rp-toolbar">
+      <button id="rp-print" type="button">🖨️ Print / Save as PDF</button>
+      <span class="rp-hint">Tip: choose “Save as PDF” as the destination in the print dialog.</span>
+    </div>
+
+    <main id="rp-content" class="rp-page">
+      <!-- report.js fills this in -->
+    </main>
+
+    <script src="../lib/storage.js"></script>
+    <script src="../lib/scoring.js"></script>
+    <script src="report.js"></script>
+  </body>
+</html>

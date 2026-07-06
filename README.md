@@ -24,8 +24,27 @@ Manifest V3).
   - **Sort** by score or date,
   - **Filter** by method (RICE / ICE),
   - **Edit** a saved score in place, or **delete** it (with a confirm step),
-  - **Export CSV** to open your scores in a spreadsheet,
-  - click a ticket to open it in a new tab.
+  - click a ticket to open it in a new tab,
+  - **Export ▾** the list in several formats (see below).
+
+### Exporting & backups
+
+The **Export ▾** menu in the popup gives you:
+
+- **Copy as Markdown** — a ranked Markdown table on your clipboard, ready to
+  paste into Notion, Confluence, Google Docs, or a GitHub comment.
+- **Markdown (.md)** / **CSV (.csv)** — download the current view as a file.
+  (CSV opens directly in Excel and Google Sheets.)
+- **Print / Save as PDF** — opens a clean, formatted report in a new tab and
+  brings up the print dialog; choose "Save as PDF" to share it.
+- **Backup all (JSON)** — download every saved score as a `.json` file.
+- **Restore from backup…** — load a `.json` backup back in. This is how you move
+  your scores to another browser or computer (your data is otherwise stored only
+  in the browser you saved it in). Restoring **merges** — it adds/updates from
+  the file without deleting what you already have.
+
+> Markdown, CSV, and the PDF report reflect your current search/filter view;
+> the JSON backup always includes everything.
 
 ### About priority tiers
 
@@ -48,8 +67,10 @@ method:
 | `lib/scoring.js`      | The single "source of truth": each method's fields, math, tiers, ranks. |
 | `lib/scoreForm.js`    | The reusable RICE/ICE form (used by both the widget and the popup's edit mode). |
 | `lib/scoreForm.css`   | Shared styles for that form and the tier badges.                    |
+| `lib/exporters.js`    | Pure functions that turn scores into CSV / Markdown / JSON text.    |
 | `lib/storage.js`      | Shared helper for reading/writing saved scores.                     |
 | `popup/`              | The toolbar window: ranked list, search/sort/filter, edit, export.  |
+| `report/`             | The printable "Save as PDF" report page.                            |
 | `README.md`           | This file.                                                          |
 
 ---

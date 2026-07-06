@@ -64,6 +64,71 @@ body {
   background: rgba(255, 255, 255, 0.22);
 }
 
+/* Export dropdown menu. */
+.pp-menu-wrap {
+  margin-left: auto;
+  position: relative;
+}
+.pp-menu-list {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 20;
+  min-width: 200px;
+  background: #ffffff;
+  border: 1px solid var(--ps-line);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  padding: 6px;
+  color: var(--ps-ink);
+}
+.pp-menu-hidden {
+  display: none;
+}
+.pp-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--ps-ink);
+  cursor: pointer;
+}
+.pp-menu-item:hover {
+  background: #f1f2f9;
+}
+.pp-menu-sep {
+  height: 1px;
+  background: var(--ps-line);
+  margin: 6px 4px;
+}
+
+/* Transient status toast. */
+.pp-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%) translateY(20px);
+  background: #1f2430;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  max-width: 300px;
+  text-align: center;
+}
+.pp-toast-show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* --- Controls bar (search / sort / filter) ------------------------------ */
 .pp-controls {
   padding: 12px 16px;

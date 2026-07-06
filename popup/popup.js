@@ -7,10 +7,10 @@
  *   - method filter (All / RICE / ICE)
  *   - a colored priority tier + rank on each row
  *   - edit (reuses the shared scoring form) and delete (with a confirm)
- *   - Export to CSV
+ *   - an Export menu: Copy Markdown, Markdown, CSV, PDF, JSON backup & restore
  *
  * It reuses the shared helpers: PriorityScorerStorage, PriorityScorerScoring,
- * and PriorityScorerForm (loaded before this file in popup.html).
+ * PriorityScorerForm, and PriorityScorerExporters (all loaded before this file).
  */
 (function () {
   "use strict";
@@ -18,6 +18,7 @@
   const Storage = window.PriorityScorerStorage;
   const Scoring = window.PriorityScorerScoring;
   const Form = window.PriorityScorerForm;
+  const Exporters = window.PriorityScorerExporters;
   const api = typeof browser !== "undefined" ? browser : chrome;
 
   // Page elements.
@@ -26,7 +27,9 @@
   const searchInput = document.getElementById("pp-search");
   const sortSelect = document.getElementById("pp-sort");
   const filterSelect = document.getElementById("pp-filter");
-  const exportBtn = document.getElementById("pp-export");
+  const exportBtn = document.getElementById("pp-export-btn");
+  const exportMenu = document.getElementById("pp-export-menu");
+  const importFile = document.getElementById("pp-import-file");
 
   // Which row (if any) is currently being edited.
   let editingKey = null;
@@ -271,66 +274,168 @@
     return wrap;
   }
 
-  // --- Export to CSV -------------------------------------------------------
-  // Builds a CSV of whatever's currently shown (respects search/filter/sort)
-  // and triggers a download.
-  async function exportCsv() {
-    const all = await Storage.getAllScores();
+  // --- Export helpers ------------------------------------------------------
+
+  // Turn the currently-shown entries into the flat "rows" the exporters want,
+  // each enriched with its per-method rank and tier.
+  function enrichVisibleRows(all) {
     const byMethod = scoresByMethod(all);
-    const entries = visibleEntries(all);
-    if (entries.length === 0) return;
-
-    const header = [
-      "Rank",
-      "Method",
-      "Score",
-      "Tier",
-      "Ticket ID",
-      "Title",
-      "Platform",
-      "Saved",
-      "URL",
-    ];
-
-    const rows = entries.map(function (e) {
+    return visibleEntries(all).map(function (e) {
       const sameMethod = byMethod[e.method] || [];
       const tier = Scoring.tierForScore(e.method, e.score, sameMethod);
       const rank = Scoring.rankWithin(e.score, sameMethod);
-      return [
-        "#" + rank.rank + " of " + rank.total,
-        e.method,
-        Scoring.formatScore(e.score),
-        tier.label,
-        e.id,
-        e.title || "",
-        e.platform,
-        e.savedAt ? new Date(e.savedAt).toLocaleDateString() : "",
-        e.url,
-      ];
+      return {
+        rankLabel: "#" + rank.rank + " of " + rank.total,
+        method: e.method,
+        scoreStr: Scoring.formatScore(e.score),
+        tier: tier.label,
+        id: e.id,
+        title: e.title || "",
+        platform: e.platform,
+        saved: e.savedAt ? new Date(e.savedAt).toLocaleDateString() : "",
+        url: e.url,
+      };
     });
+  }
 
-    // Wrap each cell in quotes and escape any quotes inside — safe for commas.
-    const csv = [header]
-      .concat(rows)
-      .map(function (row) {
-        return row
-          .map(function (cell) {
-            return '"' + String(cell).replace(/"/g, '""') + '"';
-          })
-          .join(",");
-      })
-      .join("\r\n");
-
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  // Trigger a file download from an in-memory string.
+  function download(filename, mime, text) {
+    const blob = new Blob([text], { type: mime });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "priority-scores.csv";
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   }
+
+  // A date stamp like "2026-07-06" for filenames.
+  function stamp() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  // Copy text to the clipboard, with a fallback for older browsers.
+  async function copyToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      // Fallback: a hidden textarea + execCommand.
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand("copy"); } catch (_) {}
+      document.body.removeChild(ta);
+      return ok;
+    }
+  }
+
+  // A small transient message at the bottom of the popup.
+  function toast(message) {
+    let t = document.getElementById("pp-toast");
+    if (!t) {
+      t = document.createElement("div");
+      t.id = "pp-toast";
+      t.className = "pp-toast";
+      document.body.appendChild(t);
+    }
+    t.textContent = message;
+    t.classList.add("pp-toast-show");
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(function () {
+      t.classList.remove("pp-toast-show");
+    }, 2200);
+  }
+
+  // --- The Export menu actions --------------------------------------------
+  async function runExportAction(action) {
+    const all = await Storage.getAllScores();
+
+    if (action === "json") {
+      // Backup EVERYTHING (not just the filtered view).
+      download(
+        "priority-scorer-backup-" + stamp() + ".json",
+        "application/json",
+        Exporters.toJsonBackup(all)
+      );
+      toast("Backup downloaded.");
+      return;
+    }
+
+    if (action === "import") {
+      importFile.click(); // opens the file picker; handled below
+      return;
+    }
+
+    if (action === "pdf") {
+      // Open the printable report in its own tab (it auto-opens the print box).
+      api.tabs.create({ url: api.runtime.getURL("report/report.html") });
+      return;
+    }
+
+    // The remaining actions work on the currently-shown rows.
+    const rows = enrichVisibleRows(all);
+    if (rows.length === 0) {
+      toast("Nothing to export in this view.");
+      return;
+    }
+
+    if (action === "csv") {
+      download("priority-scores-" + stamp() + ".csv", "text/csv;charset=utf-8;", Exporters.toCsv(rows));
+      toast("CSV downloaded.");
+    } else if (action === "md") {
+      download("priority-scores-" + stamp() + ".md", "text/markdown;charset=utf-8;", Exporters.toMarkdown(rows, { dateStr: new Date().toLocaleString() }));
+      toast("Markdown downloaded.");
+    } else if (action === "copy-md") {
+      const ok = await copyToClipboard(Exporters.toMarkdown(rows, { dateStr: new Date().toLocaleString() }));
+      toast(ok ? "Markdown copied to clipboard." : "Couldn't copy — try the download instead.");
+    }
+  }
+
+  // Read a chosen backup file and merge it into storage.
+  async function handleImportFile(file) {
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const incoming = Exporters.parseBackup(text); // throws if malformed
+      const current = await Storage.getAllScores();
+      const merged = Object.assign({}, current, incoming); // imported wins on clashes
+      await Storage.setAllScores(merged);
+      toast(Object.keys(incoming).length + " score(s) restored.");
+      render();
+    } catch (e) {
+      toast("Import failed: " + e.message);
+    } finally {
+      importFile.value = ""; // let the same file be chosen again later
+    }
+  }
+
+  // --- Export menu open/close ---------------------------------------------
+  function toggleMenu(open) {
+    const willOpen = open != null ? open : exportMenu.classList.contains("pp-menu-hidden");
+    exportMenu.classList.toggle("pp-menu-hidden", !willOpen);
+  }
+  exportBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    toggleMenu();
+  });
+  exportMenu.addEventListener("click", function (e) {
+    const item = e.target.closest(".pp-menu-item");
+    if (!item) return;
+    toggleMenu(false);
+    runExportAction(item.dataset.action);
+  });
+  // Close the menu when clicking anywhere else.
+  document.addEventListener("click", function () { toggleMenu(false); });
+  importFile.addEventListener("change", function () {
+    handleImportFile(importFile.files && importFile.files[0]);
+  });
 
   // --- Wire up the controls ------------------------------------------------
   // Re-render as the user searches / sorts / filters. (Leaving edit mode first
@@ -342,7 +447,6 @@
   searchInput.addEventListener("input", onControlChange);
   sortSelect.addEventListener("change", onControlChange);
   filterSelect.addEventListener("change", onControlChange);
-  exportBtn.addEventListener("click", exportCsv);
 
   render();
 })();
