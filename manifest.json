@@ -6,6 +6,10 @@
 
   "permissions": ["storage", "clipboardWrite"],
 
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+
   "action": {
     "default_popup": "popup/popup.html",
     "default_title": "Priority Scorer"

@@ -118,7 +118,20 @@ tab.
 
 ---
 
-## Privacy
+## Security & privacy
 
-This extension does not send any data anywhere. Scores you save are kept in
-your browser's local extension storage only.
+- **Nothing leaves your browser.** No servers, no accounts, no analytics, no
+  network requests at all. Saved scores live only in your browser's local
+  extension storage.
+- **Least privilege.** The extension only asks for `storage` and `clipboardWrite`
+  (for "Copy as Markdown"), and its content script runs only on
+  `*.atlassian.net` and `linear.app` — nowhere else.
+- **Manifest V3** with an explicit Content Security Policy: no remote code, no
+  inline scripts, no `eval`.
+- **Safe rendering.** Ticket titles and other text are always inserted as plain
+  text (never as HTML), so a weird page title can't run code.
+- **Backups are sanitized on import.** Because a backup file is data you could
+  receive from someone else, restoring rebuilds each entry from known fields,
+  validates them, and drops anything unexpected (for example, a non-`http(s)`
+  link is stripped so it can never be clicked). Exported CSVs are also protected
+  against spreadsheet "formula injection."

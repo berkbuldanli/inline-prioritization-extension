@@ -136,15 +136,24 @@
     const info = document.createElement("div");
     info.className = "pp-info";
 
-    const link = document.createElement("a");
+    // Only treat http(s) URLs as clickable links. Anything else (e.g. a
+    // "javascript:" URL smuggled in via an imported backup) is shown as plain
+    // text and never opened.
+    const url = Exporters.safeUrl(entry.url);
+    let link;
+    if (url) {
+      link = document.createElement("a");
+      link.href = url;
+      link.title = url;
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        api.tabs.create({ url: url });
+      });
+    } else {
+      link = document.createElement("span");
+    }
     link.className = "pp-link";
-    link.href = entry.url;
     link.textContent = entry.title || entry.id;
-    link.title = entry.url;
-    link.addEventListener("click", function (e) {
-      e.preventDefault();
-      api.tabs.create({ url: entry.url });
-    });
 
     const tierRow = document.createElement("div");
     tierRow.className = "pp-tier-row";
