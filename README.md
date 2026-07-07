@@ -7,6 +7,17 @@ stored locally in your browser — no accounts, no servers, no external APIs.
 Works on **Chrome** and **Firefox** (built with the WebExtensions API,
 Manifest V3).
 
+> _Works with Jira and Linear. Not affiliated with, or endorsed by, Atlassian or
+> Linear._
+
+## Publishing
+
+Ready to go to the stores. Run `bash scripts/package.sh` to build the upload zip,
+and follow [`STORE_SUBMISSION.md`](STORE_SUBMISSION.md) for the full Chrome Web
+Store + Firefox AMO checklist (listing copy, screenshots in `store-assets/`, and
+permission justifications are all prepared). See [`PRIVACY.md`](PRIVACY.md) for
+the privacy policy.
+
 ## What it does
 
 - On a **Jira** or **Linear** ticket page, a floating **PS** button appears
